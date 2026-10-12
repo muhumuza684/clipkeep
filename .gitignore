@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.expo/
+phone/android/
+phone/ios/
+*.log
+.DS_Store
+Thumbs.db
