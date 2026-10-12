@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  windows-app:
+    name: Windows app checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: windows
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Check the JavaScript
+        run: |
+          for f in main.js store.js smart.js brand.js preload.js renderer/app.js; do
+            node --check "$f"
+          done
+      - name: Run the tests
+        run: npm test
+
+  phone-app:
+    name: Phone app checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: phone
+    env:
+      EXPO_NO_TELEMETRY: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Check that the app bundles for Android
+        run: npx expo export --platform android
