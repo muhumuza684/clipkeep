@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: data:; style-src 'self'; script-src 'self'" />
+  <title>ClipKeep</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brandBlock">
+        <div id="productName" class="product">ClipKeep</div>
+        <div class="byline">by <span id="company" class="wordmark">Bryt Ma Tech</span></div>
+      </div>
+      <nav id="nav" class="nav" aria-label="Sections"></nav>
+      <div class="navBottom">
+        <nav id="navSettings" class="nav" aria-label="Settings"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="pageHead" id="pageHead">
+        <h1 id="pageTitle">Clipboard</h1>
+        <label class="search" id="searchWrap">
+          <span id="searchIcon" class="searchIcon"></span>
+          <input id="search" type="text" autocomplete="off" spellcheck="false" />
+        </label>
+      </header>
+
+      <!-- Clipboard -->
+      <section id="p-clipboard" class="page">
+        <div id="tip" class="tip" hidden>
+          <div>
+            <strong>How it works</strong>
+            <ol>
+              <li>Copy anything in any app. It is saved here on its own.</li>
+              <li>Press <b>Copy</b> on an item, then press Ctrl+V where you want it.</li>
+              <li>Or press <b>Paste</b> and ClipKeep types it into the app you were just using.</li>
+            </ol>
+          </div>
+          <button id="tipClose" class="btn">Got it</button>
+        </div>
+        <nav id="chips-clip" class="chips" aria-label="Filter by type"></nav>
+        <ul id="list" class="rows" aria-label="Clipboard history"></ul>
+      </section>
+
+      <!-- Contacts -->
+      <section id="p-contacts" class="page" hidden>
+        <nav id="chips-contacts" class="chips" aria-label="Filter contacts"></nav>
+        <div id="contactList" class="rows"></div>
+      </section>
+
+      <!-- Emoji -->
+      <section id="p-emoji" class="page" hidden>
+        <nav id="emojiCats" class="chips wrapChips" aria-label="Emoji categories"></nav>
+        <div class="toneRow">
+          <span>Skin tone</span>
+          <div id="tones" class="tones"></div>
+        </div>
+        <div id="emojiGrid" class="emojiScroll"></div>
+        <div id="emojiBar" class="selectionBar"></div>
+      </section>
+
+      <!-- Colours -->
+      <section id="p-colours" class="page scroll" hidden>
+        <div class="colourTop">
+          <div class="pickerCol">
+            <div id="sv" class="sv" aria-label="Pick brightness and saturation"><div id="svCursor" class="cursor"></div></div>
+            <div id="hue" class="hue" aria-label="Pick the hue"><div id="hueCursor" class="hueCursor"></div></div>
+            <button id="eyedrop" class="btn primary wide"></button>
+          </div>
+          <div class="valuesCol">
+            <div id="bigSwatch" class="bigSwatch"></div>
+            <div class="valRow"><label for="cHex">Hex</label><input id="cHex" type="text" spellcheck="false" maxlength="9" /><button class="btn" data-copy="hex">Copy</button></div>
+            <div class="valRow"><label for="cRgb">RGB</label><input id="cRgb" type="text" readonly /><button class="btn" data-copy="rgb">Copy</button></div>
+            <div class="valRow"><label for="cHsl">HSL</label><input id="cHsl" type="text" readonly /><button class="btn" data-copy="hsl">Copy</button></div>
+            <div id="contrast" class="contrast"></div>
+            <button id="pasteHex" class="btn"></button>
+          </div>
+        </div>
+        <section class="palettes">
+          <h2>Palettes</h2>
+          <div class="palHead">
+            <select id="palSelect" aria-label="Choose a palette"></select>
+            <input id="palName" type="text" placeholder="Name of the new palette" hidden />
+            <button id="palNew" class="btn">New palette</button>
+            <button id="palDel" class="btn danger">Delete palette</button>
+          </div>
+          <div id="palColors" class="swatches"></div>
+          <div class="btnRow">
+            <button id="palAdd" class="btn primary">Add this colour to the palette</button>
+            <button id="palCss" class="btn">Copy palette as CSS</button>
+            <button id="palJson" class="btn">Copy palette as JSON</button>
+          </div>
+        </section>
+      </section>
+
+      <!-- Flags -->
+      <section id="p-flags" class="page" hidden>
+        <ul id="flagList" class="rows" aria-label="Countries"></ul>
+      </section>
+
+      <!-- Settings -->
+      <section id="p-settings" class="page scroll" hidden>
+        <div class="settingsWrap">
+          <section class="group">
+            <h2>General</h2>
+            <label class="setRow">
+              <span><strong>Save what I copy</strong><small>Turn off to pause. Nothing new is saved while it is off.</small></span>
+              <input id="setCapture" type="checkbox" role="switch" />
+            </label>
+            <label class="setRow">
+              <span><strong>Start with Windows</strong><small id="autostartNote">Runs quietly in the tray after you sign in.</small></span>
+              <input id="setAutostart" type="checkbox" role="switch" />
+            </label>
+            <label class="setRow">
+              <span><strong>Keep running when I close the window</strong><small>Recommended. ClipKeep stays in the tray so it keeps saving. Turn off to quit on close.</small></span>
+              <input id="setTray" type="checkbox" role="switch" />
+            </label>
+            <div class="setRow">
+              <span><strong>Shortcut to bring ClipKeep forward</strong><small id="hotkeyMsg">Example: Control+Alt+V or Control+Shift+Space</small></span>
+              <span class="inline"><input id="setHotkey" type="text" spellcheck="false" /><button id="applyHotkey" class="btn primary">Apply</button></span>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2>Appearance</h2>
+            <div class="setRow">
+              <span><strong>Theme</strong><small>Light, dark, or follow Windows.</small></span>
+              <select id="setTheme"><option value="system">Follow Windows</option><option value="light">Light</option><option value="dark">Dark</option></select>
+            </div>
+            <div class="stack">
+              <strong>Accent colour</strong>
+              <small>Used for buttons, highlights and the marker beside the active section.</small>
+              <div id="accentSwatches" class="swatches accentSwatches"></div>
+              <div class="inline wrap">
+                <input id="accentHex" type="text" maxlength="7" spellcheck="false" placeholder="#1E6FBF" aria-label="Accent colour as a hex code" />
+                <span id="accentPreview" class="miniSwatch"></span>
+                <button id="accentApply" class="btn primary">Use this colour</button>
+                <button id="accentFromPicker" class="btn">Use the colour from the Colours page</button>
+                <button id="accentReset" class="btn">Reset to Bryt Ma Tech blue</button>
+              </div>
+              <small id="accentMsg"></small>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2>Phone numbers</h2>
+            <div class="setRow">
+              <span><strong>Your country</strong><small>Numbers typed without a country code, like 0772 123456, are read as numbers from here.</small></span>
+              <select id="setHome"></select>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2>History</h2>
+            <div class="setRow">
+              <span><strong>How many items to keep</strong><small>The oldest unpinned items go first. Pinned items are always kept.</small></span>
+              <span class="inline"><input id="setMaxItems" type="number" min="50" max="20000" step="50" /><span>items</span></span>
+            </div>
+            <div class="setRow">
+              <span><strong>Largest file to copy</strong><small>Bigger files are not copied. Only their location is remembered.</small></span>
+              <span class="inline"><input id="setMaxFile" type="number" min="1" max="4000" step="10" /><span>MB</span></span>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2>Privacy</h2>
+            <p class="note">Copies from password managers that mark them as private are skipped automatically. You can also block your own patterns.</p>
+            <label class="stack"><strong>Never save text that matches</strong><small>One pattern per line. Case does not matter. Example: ^sk-[a-z0-9]{20,}</small>
+              <textarea id="setIgnore" rows="3" spellcheck="false"></textarea>
+            </label>
+            <button id="saveIgnore" class="btn primary">Save patterns</button>
+          </section>
+
+          <section class="group">
+            <h2>Your data</h2>
+            <p class="note">Everything is stored on this PC only.</p>
+            <div class="btnRow">
+              <button id="openFolder" class="btn">Open data folder</button>
+              <button id="clearUnpinned" class="btn danger">Clear unpinned items</button>
+              <button id="clearContacts" class="btn danger">Clear contacts</button>
+              <button id="clearAll" class="btn danger">Delete everything</button>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2>Keyboard</h2>
+            <ul class="keys">
+              <li><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>V</kbd><span>Bring ClipKeep forward from anywhere</span></li>
+              <li><kbd>Up</kbd> <kbd>Down</kbd><span>Move through the list</span></li>
+              <li><kbd>Enter</kbd><span>Copy the selected item</span></li>
+              <li><kbd>Delete</kbd><span>Delete the selected item (you can undo)</span></li>
+              <li><kbd>Ctrl</kbd>+<kbd>F</kbd><span>Search</span></li>
+              <li><kbd>Ctrl</kbd>+<kbd>1</kbd> to <kbd>6</kbd><span>Switch section</span></li>
+            </ul>
+          </section>
+
+          <section class="group about" id="about"></section>
+        </div>
+      </section>
+
+      <footer class="status">
+        <button id="captureBtn" class="statusBtn"></button>
+        <span id="countText" class="countText"></span>
+        <span id="builtIn" class="built"></span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" hidden><span id="toastText"></span><button id="toastAction" class="toastBtn" hidden></button></div>
+  <script src="data/emoji.js"></script>
+  <script src="data/countries.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
