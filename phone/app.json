@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "ClipKeep",
+    "slug": "clipkeep-phone",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.brytma.clipkeep"
+    },
+    "android": {
+      "package": "com.brytma.clipkeep",
+      "adaptiveIcon": {
+        "backgroundColor": "#3A4FD6",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "plugins": [
+      [
+        "expo-sharing",
+        {
+          "android": {
+            "enabled": true,
+            "singleShareMimeTypes": ["text/*", "image/*", "audio/*", "video/*", "application/*"],
+            "multipleShareMimeTypes": ["image/*", "audio/*", "video/*", "application/*"]
+          },
+          "ios": { "enabled": false }
+        }
+      ]
+    ]
+  }
+}
