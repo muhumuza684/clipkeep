@@ -1,26 +1,42 @@
+<div align="center">
+
 # ClipKeep
 
 **A clipboard for your PC and your phone that keeps everything you copy, understands phone numbers, emails and colours, and finds it all again.**
 
+[![Download for Windows](https://img.shields.io/badge/Download%20for-Windows-1E6FBF?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/muhumuza684/clipkeep/releases/latest/download/ClipKeep-Setup.exe)
+&nbsp;
+[![Download for Android](https://img.shields.io/badge/Download%20for-Android-2E7D4F?style=for-the-badge&logo=android&logoColor=white)](https://github.com/muhumuza684/clipkeep/releases/latest/download/ClipKeep.apk)
+
+[Windows portable version (no install)](https://github.com/muhumuza684/clipkeep/releases/latest/download/ClipKeep-Portable.exe) &nbsp;|&nbsp; [All releases](https://github.com/muhumuza684/clipkeep/releases)
+
+![Latest release](https://img.shields.io/github/v/release/muhumuza684/clipkeep?label=latest&color=1E6FBF)
+![Downloads](https://img.shields.io/github/downloads/muhumuza684/clipkeep/total?color=1E6FBF)
+[![CI](https://github.com/muhumuza684/clipkeep/actions/workflows/ci.yml/badge.svg)](https://github.com/muhumuza684/clipkeep/actions/workflows/ci.yml)
+
 Built in Uganda by [Bryt Ma Tech](https://github.com/muhumuza684). Everything stays on your device. No account, no cloud, no internet needed.
 
-## Download
+![ClipKeep on Windows](docs/screenshots/windows-clipboard.png)
 
-| | |
-|---|---|
-| **Windows installer** (recommended) | [ClipKeep-Setup.exe](https://github.com/muhumuza684/clipkeep/releases/latest/download/ClipKeep-Setup.exe) |
-| **Windows portable** (no install) | [ClipKeep-Portable.exe](https://github.com/muhumuza684/clipkeep/releases/latest/download/ClipKeep-Portable.exe) |
-| **Android** | [ClipKeep.apk](https://github.com/muhumuza684/clipkeep/releases/latest/download/ClipKeep.apk) |
+</div>
 
-All versions are on the [Releases page](https://github.com/muhumuza684/clipkeep/releases).
+## How to install
 
-**Windows 10 and 11 (64-bit).** The app is not code-signed yet, so Windows SmartScreen may say "Windows protected your PC" the first time. Choose **More info**, then **Run anyway**.
+**Windows 10 or 11 (64-bit)**
+1. Click **Download for Windows** above.
+2. Open the file you downloaded. The app is not code-signed yet, so Windows may say "Windows protected your PC". Click **More info**, then **Run anyway**.
+3. ClipKeep opens. Copy something in any app and it appears. Press **Ctrl+Alt+V** from anywhere to bring ClipKeep forward.
 
-**Android.** Open the downloaded file and allow "install from this source" when asked. The APK is not from the Play Store.
+Prefer not to install? Use the **portable version**: download it and double-click, nothing is installed.
+
+**Android**
+1. Open this page on your phone and tap **Download for Android**.
+2. Open the downloaded file. Android will ask you to allow installing from this source. Allow it just for this install.
+3. Open ClipKeep. After you copy something in another app, open ClipKeep (it saves automatically) or tap **Save what I copied**.
+
+The Android file is not from the Play Store.
 
 ## What it does
-
-![Clipboard on Windows](docs/screenshots/windows-clipboard.png)
 
 - **A normal window that stays open.** It never disappears when you click elsewhere. Closing it keeps it in the tray so it keeps saving.
 - **Every action is a labelled button.** Copy, Paste, Pin, Delete, and the buttons that fit what you copied. No hidden keys. Delete has Undo.
