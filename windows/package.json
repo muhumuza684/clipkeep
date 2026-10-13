@@ -1,7 +1,7 @@
 {
   "name": "clipkeep-windows",
   "productName": "ClipKeep",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A clipboard that keeps everything you copy, understands phone numbers, emails and colours, and finds it all again.",
   "main": "main.js",
   "private": true,
@@ -46,10 +46,19 @@
     },
     "portable": {
       "artifactName": "ClipKeep-Portable.exe"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "muhumuza684",
+        "repo": "clipkeep"
+      }
+    ]
   },
   "dependencies": {
     "libphonenumber-js": "^1.13.15"
   },
-  "author": "Bryt Ma Tech"
+  "author": "Bryt Ma Tech",
+  "repository": "github:muhumuza684/clipkeep",
+  "homepage": "https://github.com/muhumuza684/clipkeep"
 }

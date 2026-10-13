@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.2
+
+- Fix the Windows release build (it failed while preparing update information).
+- Update the build workflows to current GitHub Actions and Node 22.
+
 ## 1.3.1
 
 First public release.

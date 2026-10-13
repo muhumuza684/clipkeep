@@ -79,8 +79,8 @@ Names, tagline and contact lines are in `windows/brand.js` and `phone/src/brand.
 Pushing a version tag builds the apps and publishes them on the Releases page:
 
 ```
-git tag v1.3.2
-git push origin v1.3.2
+git tag v1.3.3
+git push origin v1.3.3
 ```
 
 The **Release** workflow creates the release, builds the Windows installer and portable app, builds the Android APK, and attaches them. The Android build is marked optional, so a problem there never blocks the Windows release; you can re-run it from the Actions tab.
