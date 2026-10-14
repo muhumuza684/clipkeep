@@ -1,0 +1,7 @@
+# Keep line endings consistent between Windows and Linux.
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.svg text
+*.apk binary
+*.exe binary

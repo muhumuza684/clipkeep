@@ -19,6 +19,7 @@ const { pathToFileURL } = require('url');
 const { Store } = require('./store');
 const smart = require('./smart');
 const brand = require('./brand');
+const winv = require('./winv');
 
 const IS_WIN = process.platform === 'win32';
 const POLL_MS = 450;
@@ -379,10 +380,75 @@ function registerHotkey(accelerator) {
   globalShortcut.unregisterAll();
   try {
     const ok = globalShortcut.register(accelerator, showWindow);
+    if (store && store.settings.useWinV) registerWinV();
     return ok ? { ok: true } : { ok: false, error: 'Another app is already using that shortcut.' };
   } catch {
     return { ok: false, error: 'That is not a valid shortcut. Example: Control+Alt+V' };
   }
+}
+
+// ---------- optional: use Win+V ----------
+
+function regExec(args) {
+  return new Promise((resolve) => {
+    if (!IS_WIN) return resolve({ ok: false, out: '' });
+    execFile('reg', args, { windowsHide: true, timeout: 8000 }, (err, stdout) => resolve({ ok: !err, out: String(stdout || '') }));
+  });
+}
+
+async function readDisabledHotkeys() {
+  const r = await regExec(['query', winv.KEY, '/v', winv.VALUE]);
+  return r.ok ? winv.parseRegQuery(r.out) : '';
+}
+
+async function writeDisabledHotkeys(letters) {
+  if (letters) return (await regExec(['add', winv.KEY, '/v', winv.VALUE, '/t', 'REG_SZ', '/d', letters, '/f'])).ok;
+  // Nothing left: remove the value (it is fine if it was never there).
+  await regExec(['delete', winv.KEY, '/v', winv.VALUE, '/f']);
+  return true;
+}
+
+function registerWinV() {
+  try {
+    if (globalShortcut.isRegistered('Super+V')) return true;
+    return globalShortcut.register('Super+V', showWindow);
+  } catch {
+    return false;
+  }
+}
+
+async function winvStatus() {
+  const letters = await readDisabledHotkeys();
+  const on = !!store.settings.useWinV;
+  const registered = on && globalShortcut.isRegistered('Super+V');
+  return {
+    supported: IS_WIN,
+    on,
+    registered,
+    waitingForRestart: on && winv.hasLetter(letters, 'V') && !registered,
+  };
+}
+
+async function setWinV(on) {
+  if (!IS_WIN) return winvStatus();
+  const letters = await readDisabledHotkeys();
+  if (on) {
+    if (!(await writeDisabledHotkeys(winv.addLetter(letters, 'V')))) return { ...(await winvStatus()), error: 'Could not change the Windows setting.' };
+    store.setSettings({ useWinV: true });
+    registerWinV(); // works straight away only if Windows has already let go of Win+V
+  } else {
+    globalShortcut.unregister('Super+V');
+    await writeDisabledHotkeys(winv.removeLetter(letters, 'V'));
+    store.setSettings({ useWinV: false });
+  }
+  return winvStatus();
+}
+
+async function restartExplorer() {
+  await runPowerShell('Stop-Process -Name explorer -Force', 8000); // Windows starts it again by itself
+  await new Promise((r) => setTimeout(r, 3000));
+  if (store.settings.useWinV) registerWinV();
+  return winvStatus();
 }
 
 function applyStartWithWindows() {
@@ -509,6 +575,11 @@ function setupIpc() {
     return result;
   });
   // ----- things the popup asks for -----
+  ipcMain.handle('winv:status', () => winvStatus());
+  ipcMain.handle('winv:set', (_e, on) => setWinV(!!on));
+  ipcMain.handle('winv:restart-explorer', () => restartExplorer());
+  ipcMain.handle('open-windows-clipboard-settings', () => shell.openExternal('ms-settings:clipboard'));
+
   ipcMain.handle('app:info', () => ({ brand, version: app.getVersion(), packaged: app.isPackaged }));
 
   ipcMain.handle('copyText', async (_e, text) => {
@@ -606,6 +677,7 @@ if (!app.requestSingleInstanceLock()) {
     createTray();
 
     const hk = registerHotkey(store.settings.hotkey);
+    if (store.settings.useWinV) registerWinV();
     applyStartWithWindows();
 
     // Treat whatever is on the clipboard at launch as already seen, then watch for changes.

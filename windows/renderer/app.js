@@ -873,6 +873,38 @@
   $('accentFromPicker').addEventListener('click', () => setAccent(currentHex()));
   $('accentReset').addEventListener('click', () => setAccent(null));
 
+
+  // =====================================================
+  //  Win+V
+  // =====================================================
+
+  async function renderWinV() {
+    const st = await clip.winvStatus();
+    const sw = $('setWinV');
+    sw.checked = st.on;
+    sw.disabled = !st.supported;
+    let text = 'Off. Windows still uses Win+V for its own clipboard history.';
+    if (!st.supported) text = 'Only available on Windows.';
+    else if (st.registered) text = 'On. Press Win+V anywhere to open ClipKeep.';
+    else if (st.waitingForRestart) text = 'Almost there. Windows only lets go of Win+V after Windows Explorer restarts.';
+    else if (st.on) text = 'On, but Windows is still holding Win+V. Restart Windows Explorer or sign out and back in.';
+    $('winvStatus').textContent = text;
+    $('winvButtons').hidden = !(st.on && !st.registered);
+  }
+
+  $('setWinV').addEventListener('change', async (e) => {
+    const st = await clip.winvSet(e.target.checked);
+    if (st && st.error) toast(st.error);
+    renderWinV();
+  });
+  $('winvRestart').addEventListener('click', async () => {
+    $('winvRestart').disabled = true;
+    await clip.restartExplorer();
+    $('winvRestart').disabled = false;
+    renderWinV();
+  });
+  $('winClipSettings').addEventListener('click', () => clip.openWindowsClipboardSettings());
+
   // =====================================================
   //  Flags page
   // =====================================================
@@ -1090,6 +1122,7 @@
     $('setTheme').value = s.theme || 'system';
     $('accentMsg').textContent = '';
     renderAccent();
+    renderWinV();
     $('setHotkey').value = s.hotkey;
     $('hotkeyMsg').textContent = 'Example: Control+Alt+V or Control+Shift+Space';
     $('hotkeyMsg').style.color = '';

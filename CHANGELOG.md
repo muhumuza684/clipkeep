@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.4.0
+
+**Both apps**
+- The phone app now has the same icon as the Windows app (Android adaptive and themed icons included), and both show the logo in their header.
+
+**Windows**
+- Optional **Open with Win+V** setting, with a button to restart Windows Explorer and a shortcut to Windows' own clipboard settings.
+
+**Android**
+- "Follow my phone" light and dark mode now works (adds expo-system-ui).
+- The About screen shows the real version.
+
+**Repository**
+- Added `.gitattributes` so line endings stay consistent on Windows and Linux.
+
 ## 1.3.2
 
 - Fix the Windows release build (it failed while preparing update information).

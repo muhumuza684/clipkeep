@@ -16,6 +16,7 @@ const DEFAULT_SETTINGS = {
   trayHintShown: false,
   theme: 'system',
   accent: null,
+  useWinV: false,
   window: null,
 };
 

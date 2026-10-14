@@ -63,7 +63,8 @@ html, body {
 /* ---------- sidebar ---------- */
 
 .side { background: var(--side); display: flex; flex-direction: column; padding: 18px 0 12px; color: var(--side-text); }
-.brandBlock { padding: 0 20px 18px; }
+.brandBlock { display: flex; align-items: center; gap: 12px; padding: 0 20px 18px; }
+.logo { width: 40px; height: 40px; border-radius: 9px; flex: none; }
 .product { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
 .byline { margin-top: 2px; font-size: 12.5px; color: var(--side-text); }
 .side .wordmark { color: #fff; border-bottom-color: var(--brand-blue); }
@@ -282,3 +283,5 @@ kbd { font: inherit; font-size: 12px; padding: 1px 6px; border: 1px solid var(--
 .sw[aria-pressed="true"] { outline: 3px solid var(--ink); outline-offset: 2px; }
 .miniSwatch { width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--line); display: inline-block; }
 #accentHex { width: 110px; height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); font: 13px "Cascadia Mono", Consolas, monospace; }
+
+.btnRow .note { align-self: center; margin: 0; max-width: 520px; font-size: 12.5px; }

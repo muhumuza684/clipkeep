@@ -33,6 +33,11 @@ contextBridge.exposeInMainWorld('clip', {
   removePalette: call('palettes:remove'),
   addColor: call('palettes:addColor'),
   removeColor: call('palettes:removeColor'),
+  // Win+V
+  winvStatus: call('winv:status'),
+  winvSet: call('winv:set'),
+  restartExplorer: call('winv:restart-explorer'),
+  openWindowsClipboardSettings: call('open-windows-clipboard-settings'),
   // app
   info: call('app:info'),
   getSettings: call('settings:get'),

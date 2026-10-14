@@ -10,8 +10,11 @@
   <div class="app">
     <aside class="side">
       <div class="brandBlock">
-        <div id="productName" class="product">ClipKeep</div>
-        <div class="byline">by <span id="company" class="wordmark">Bryt Ma Tech</span></div>
+        <img class="logo" src="logo.png" alt="" width="40" height="40" />
+        <div>
+          <div id="productName" class="product">ClipKeep</div>
+          <div class="byline">by <span id="company" class="wordmark">Bryt Ma Tech</span></div>
+        </div>
       </div>
       <nav id="nav" class="nav" aria-label="Sections"></nav>
       <div class="navBottom">
@@ -142,6 +145,23 @@
                 <button id="accentReset" class="btn">Reset to Bryt Ma Tech blue</button>
               </div>
               <small id="accentMsg"></small>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2>Open with Win+V</h2>
+            <p class="note">Windows does not have a "default clipboard" setting that apps can ask for. Its own clipboard history owns the Win+V shortcut. ClipKeep can take Win+V over by switching Windows' own Win+V shortcut off for your account. You can undo it here at any time.</p>
+            <label class="setRow">
+              <span><strong>Use Win+V to open ClipKeep</strong><small id="winvStatus">Off.</small></span>
+              <input id="setWinV" type="checkbox" role="switch" />
+            </label>
+            <div class="btnRow" id="winvButtons" hidden>
+              <button id="winvRestart" class="btn primary">Restart Windows Explorer now</button>
+              <span class="note" id="winvRestartNote">Your taskbar will flash and open File Explorer windows will close. Or sign out and back in.</span>
+            </div>
+            <div class="btnRow">
+              <button id="winClipSettings" class="btn">Open Windows clipboard settings</button>
+              <span class="note">There you can turn off Windows' own clipboard history if you want only ClipKeep.</span>
             </div>
           </section>
 

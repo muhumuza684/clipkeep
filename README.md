@@ -46,7 +46,7 @@ The Android file is not from the Play Store.
   - Colours (`#378ADD`, `rgb(...)`, `hsl(...)`) get a swatch and Copy hex, RGB and HSL.
 - **Contacts, collected for you.** Every number and email you copy is kept, even ones inside a longer message, grouped by country.
 - **Emoji, colours and flags.** An emoji picker with search and skin tones, a colour picker with a screen eyedropper and palettes, and a country flags finder with dial codes and currencies (Windows).
-- **Your look.** Light, dark or follow the device, plus your own accent colour.
+- **Your look.** Light, dark or follow the device, plus your own accent colour. The same icon on PC and phone.
 - **Private by design.** Copies from password managers that mark them private are skipped, and you can block your own patterns.
 
 | Contacts by country | Emoji | Colours |
@@ -61,11 +61,18 @@ The Android file is not from the Play Store.
 
 Android only lets an app read the clipboard while it is open. After copying in another app, open ClipKeep (it saves automatically) or tap **Save what I copied**. You can also use **Share, then ClipKeep** for text, images, audio, video and files.
 
+## Can ClipKeep be my default clipboard?
+
+Neither Windows nor Android has a "default clipboard app" setting, so an app cannot ask for that permission the way it can for a default browser or messaging app. Here is what ClipKeep does instead:
+
+- **Windows.** While ClipKeep is running it saves everything you copy, from any app. If you also want **Win+V**, turn on **Settings > Open with Win+V**. That switches off Windows' own Win+V shortcut for your account so ClipKeep can use it. You can undo it from the same place.
+- **Android.** The system only lets an app read the clipboard while it is open (or if it is your keyboard). After copying in another app, open ClipKeep or tap **Save what I copied**, or use **Share, then ClipKeep**.
+
 ## Status
 
 This is an early release. The automated checks and previews pass, but it needs more testing on real devices. If something does not work, please [open an issue](https://github.com/muhumuza684/clipkeep/issues) and say what you did and what happened.
 
-Known limits: the phone app has no emoji, colour or flags tabs yet and no keyboard that shows your history inside other apps; there is no syncing between devices; the Windows Paste button does not work into windows running as administrator.
+Known limits: the phone app has no emoji, colour or flags tabs yet and no keyboard that shows your history inside other apps; there is no syncing between devices; the Windows Paste button does not work into windows running as administrator; Win+V takeover is new and needs a Windows Explorer restart.
 
 ## Build it yourself
 

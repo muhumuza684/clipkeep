@@ -39,6 +39,7 @@ import { captureClipboard, pickAndSaveFiles, saveSharedPayload } from './src/cap
 import { flagEmoji } from './src/smart';
 import COUNTRIES from './src/countries';
 import BRAND from './src/brand';
+import APP from './app.json';
 import { formatSize, timeAgo } from './src/util';
 import { hexToHsv, hsvToHex, inkOn, isHex } from './src/colour';
 import { useTheme } from './src/theme';
@@ -247,6 +248,7 @@ export default function App() {
     <View style={s.root}>
       <StatusBar style="light" />
       <View style={[s.header, { paddingTop: top + 10 }]}>
+        <Image source={require('./assets/logo.png')} style={{ width: 44, height: 44, borderRadius: 10 }} accessibilityIgnoresInvertColors />
         <View style={{ flex: 1 }}>
           <Text style={s.product}>{BRAND.productName}</Text>
           <Text style={s.byline}>
@@ -692,7 +694,7 @@ function SettingsScreen({ t, settings, count, contactCount, onCountry, onAccent,
           <View style={s.setGroup}>
             <Text style={s.setHead}>About</Text>
             <Text style={s.wordmarkBig}>{BRAND.company}</Text>
-            <Text style={s.setNote}>{BRAND.productName} version 1.2</Text>
+            <Text style={s.setNote}>{BRAND.productName} version {APP.expo.version}</Text>
             <Text style={s.setNote}>{BRAND.tagline}. {BRAND.builtIn}.</Text>
             <Text style={s.setNote}>{BRAND.privacy}</Text>
             <Text style={s.setNote}>WhatsApp {BRAND.contact.whatsapp}</Text>
