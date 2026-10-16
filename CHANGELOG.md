@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Cleaner README, a new user guide (`docs/GUIDE.md`) and developer notes (`docs/DEVELOPING.md`). Removed duplicate and unused files.
+
 ## 1.6.2
 
 - Fix the release check that stopped 1.6.1 from publishing its Windows files (it looked for forward slashes, but Windows lists packaged files with backslashes). The apps themselves are unchanged from 1.6.1.
