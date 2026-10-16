@@ -66,7 +66,7 @@ Android only lets an app read the clipboard while it is open. After copying in a
 Neither Windows nor Android has a "default clipboard app" setting, so an app cannot ask for that permission the way it can for a default browser or messaging app. Here is what ClipKeep does instead:
 
 - **Windows.** While ClipKeep is running it saves everything you copy, from any app. If you also want **Win+V**, turn on **Settings > Open with Win+V**. That switches off Windows' own Win+V shortcut for your account so ClipKeep can use it. You can undo it from the same place.
-- **Android.** The system only lets an app read the clipboard while it is open (or if it is your keyboard). After copying in another app, open ClipKeep or tap **Save what I copied**, or use **Share, then ClipKeep**.
+- **Android.** The system only lets an app read the clipboard while it is open (or if it is your keyboard). The closest thing to a default clipboard is **Settings > Quick save in the notification area**: it adds a Save button to your notifications, so you copy in any app, pull down, tap Save, and you are taken straight back. Without it, open ClipKeep after copying or tap **Save what I copied**, or use **Share, then ClipKeep**.
 
 ## Status
 

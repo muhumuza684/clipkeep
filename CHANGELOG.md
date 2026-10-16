@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.1
+
+- **Fixes a crash on start in the installed and portable Windows apps** ("Cannot find module './winv'"). A file was left out of the package. Versions 1.4.0 and later of the Windows installer and portable app are affected; running from source was fine. The release build now checks that every file is in the package, and a test guards it.
+
+## 1.6.0
+
+**Android**
+- **Quick save in the notification area** (Settings, off by default). A quiet notification with a **Save what I copied** button: copy in any app, pull down, tap Save, and ClipKeep keeps it and sends you straight back. Android has no default clipboard setting, so this is the closest safe route.
+
 ## 1.5.0
 
 **Both apps**

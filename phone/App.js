@@ -42,6 +42,7 @@ import BRAND from './src/brand';
 import APP from './app.json';
 import { formatSize, timeAgo } from './src/util';
 import { hexToHsv, hsvToHex, inkOn, isHex } from './src/colour';
+import { Notifications, clearLastResponse, handleQuickSaveResponse, quickSaveSupported, turnOffQuickSave, turnOnQuickSave } from './src/quicksave';
 import { useTheme } from './src/theme';
 
 const FILTERS = [
@@ -111,6 +112,27 @@ export default function App() {
       if (clipSub) clipSub.remove();
     };
   }, []);
+
+  // Quick save: the Save button in the notification area.
+  useEffect(() => {
+    if (!quickSaveSupported) return undefined;
+    const onDone = (r) => say(r === 'added' ? 'Saved what you copied' : r === 'moved' ? 'Already saved. Moved it to the top.' : 'Nothing new to save. Copy something first.');
+    let sub = null;
+    try {
+      sub = Notifications.addNotificationResponseReceivedListener((res) => handleQuickSaveResponse(res, onDone));
+      Notifications.getLastNotificationResponseAsync().then((res) => {
+        if (res) {
+          handleQuickSaveResponse(res, onDone);
+          clearLastResponse();
+        }
+      });
+    } catch {}
+    return () => sub && sub.remove();
+  }, [say]);
+
+  useEffect(() => {
+    if (ready && quickSaveSupported && settings.quickSave) turnOnQuickSave();
+  }, [ready, settings.quickSave]);
 
   const { resolvedSharedPayloads, clearSharedPayloads, isResolving } = useShareSafe();
   useEffect(() => {
@@ -390,7 +412,17 @@ export default function App() {
       )}
 
       {tab === 'settings' && (
-        <SettingsScreen t={t} settings={settings} count={items.length} contactCount={contacts.length} onCountry={() => setCountryModal(true)} onAccent={() => setPickerOpen(true)} say={say} />
+        <SettingsScreen t={t} settings={settings} count={items.length} contactCount={contacts.length} onCountry={() => setCountryModal(true)} onAccent={() => setPickerOpen(true)} onQuickSave={async (on) => {
+          if (on) {
+            const r = await turnOnQuickSave();
+            if (!r.ok) return say(r.reason === 'denied' ? 'Allow notifications for ClipKeep in your phone settings to use this.' : 'Quick save could not be turned on.');
+            setSetting('quickSave', true);
+            say('Quick save is on. Look for it in your notification area.');
+          } else {
+            setSetting('quickSave', false);
+            turnOffQuickSave();
+          }
+        }} say={say} />
       )}
 
       {toast && (
@@ -599,7 +631,7 @@ function ContactRow({ t, c, editing, onEdit, onDone, onRemove, onOpen, copyText 
   );
 }
 
-function SettingsScreen({ t, settings, count, contactCount, onCountry, onAccent, say }) {
+function SettingsScreen({ t, settings, count, contactCount, onCountry, onAccent, onQuickSave, say }) {
   const s = styles(t);
   const Choice = ({ value, current, label, onPick }) => (
     <Pressable onPress={() => onPick(value)} style={[s.chip, current === value && s.chipOn]}>
@@ -623,6 +655,15 @@ function SettingsScreen({ t, settings, count, contactCount, onCountry, onAccent,
               </View>
               <Switch value={!settings.paused} onValueChange={(v) => setSetting('paused', !v)} trackColor={{ true: t.accent }} />
             </View>
+            {quickSaveSupported && (
+              <View style={s.setRow}>
+                <View style={{ flex: 1, paddingRight: 12 }}>
+                  <Text style={s.setTitle}>Quick save in the notification area</Text>
+                  <Text style={s.setNote}>Android has no default clipboard setting. This adds a Save button to your notifications: copy something in any app, pull down, tap Save, and you go straight back.</Text>
+                </View>
+                <Switch value={!!settings.quickSave} onValueChange={onQuickSave} trackColor={{ true: t.accent }} />
+              </View>
+            )}
             <View style={s.setRowCol}>
               <Text style={s.setTitle}>Your country</Text>
               <Text style={s.setNote}>Numbers typed without a country code, like 0772 123456, are read as numbers from here.</Text>

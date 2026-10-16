@@ -47,6 +47,12 @@ jobs:
         run: npm install
       - name: Build the installer and the portable app
         run: npm run dist
+      - name: Check the packaged app has every file it needs
+        run: |
+          npx --yes @electron/asar list dist/win-unpacked/resources/app.asar > packaged.txt
+          for f in main.js preload.js store.js smart.js winv.js brand.js renderer/index.html renderer/app.js; do
+            grep -q "[\\/]$f" packaged.txt || { echo "Missing from the package: $f"; exit 1; }
+          done
       - name: Attach them to the release
         run: gh release upload "$TAG" dist/ClipKeep-Setup.exe dist/ClipKeep-Portable.exe --clobber
 

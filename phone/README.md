@@ -30,6 +30,10 @@ your history.
 Android only lets an app read the clipboard while it is open. So after copying something in another app, open
 ClipKeep (it saves automatically) or tap **Save what I copied**. For files, use **Add files** or Share.
 
+## Quick save (Android)
+
+Turn on **Settings > Quick save in the notification area**. ClipKeep shows a quiet notification with a **Save what I copied** button. Copy something in any app, pull down the notification area, tap the button, and ClipKeep opens for a moment, saves it, and sends you back. Android will ask for permission to show notifications. This needs the installed app (or a development build), not Expo Go.
+
 ## What it does
 
 - **Clipboard.** Every item has a visible **Copy** button and the actions that fit it:

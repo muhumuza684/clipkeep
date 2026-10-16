@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS = {
   tipDismissed: false,
   theme: 'system',
   accent: null,
+  quickSave: false,
 };
 
 let state = { ready: false, items: [], contacts: [], settings: { ...DEFAULT_SETTINGS } };
