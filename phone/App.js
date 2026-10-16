@@ -71,6 +71,7 @@ function useShareSafe() {
   }
 }
 
+const SERIF = Platform.select({ ios: 'Georgia', default: 'serif' });
 const digitsOf = (s) => String(s).replace(/\D/g, '');
 
 export default function App() {
@@ -246,16 +247,23 @@ export default function App() {
 
   return (
     <View style={s.root}>
-      <StatusBar style="light" />
-      <View style={[s.header, { paddingTop: top + 10 }]}>
-        <Image source={require('./assets/logo.png')} style={{ width: 44, height: 44, borderRadius: 10 }} accessibilityIgnoresInvertColors />
-        <View style={{ flex: 1 }}>
+      <StatusBar style={t.scheme === 'dark' ? 'light' : 'dark'} />
+      <View style={[s.header, { paddingTop: top + 8 }]}>
+        <View style={s.headRow}>
+          <Image source={require('./assets/logo.png')} style={{ width: 40, height: 40, borderRadius: 10 }} accessibilityIgnoresInvertColors />
           <Text style={s.product}>{BRAND.productName}</Text>
-          <Text style={s.byline}>
-            by <Text style={s.wordmark}>{BRAND.company}</Text>
-          </Text>
+          <View style={{ flex: 1 }} />
+          <Pressable
+            onPress={() => setSetting('theme', t.scheme === 'dark' ? 'light' : 'dark')}
+            accessibilityRole="button"
+            accessibilityLabel={t.scheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            style={s.iconBtn}
+          >
+            <Ionicons name={t.scheme === 'dark' ? 'sunny-outline' : 'moon-outline'} size={20} color={t.ink} />
+          </Pressable>
+          {tab === 'clipboard' && <Btn t={t} label="Add files" icon="add-circle-outline" primary onPress={addFiles} />}
         </View>
-        {tab === 'clipboard' && <Btn t={t} label="Add files" icon="add-circle-outline" onPress={addFiles} onDark />}
+        <Text style={s.byline}>{BRAND.builtIn}</Text>
       </View>
 
       {tab !== 'settings' && (
@@ -697,9 +705,7 @@ function SettingsScreen({ t, settings, count, contactCount, onCountry, onAccent,
             <Text style={s.setNote}>{BRAND.productName} version {APP.expo.version}</Text>
             <Text style={s.setNote}>{BRAND.tagline}. {BRAND.builtIn}.</Text>
             <Text style={s.setNote}>{BRAND.privacy}</Text>
-            <Text style={s.setNote}>WhatsApp {BRAND.contact.whatsapp}</Text>
-            <Text style={s.setNote}>{BRAND.contact.email}</Text>
-            <Text style={s.setNote}>TikTok {BRAND.contact.tiktok}</Text>
+            <Text style={s.setNote}>Contact: {BRAND.contact.email}</Text>
             <Text style={[s.setNote, { marginTop: 10 }]}>
               Android only lets an app read the clipboard while it is open. Tap Save what I copied after copying, or use Share, then ClipKeep.
             </Text>
@@ -711,7 +717,7 @@ function SettingsScreen({ t, settings, count, contactCount, onCountry, onAccent,
 }
 
 
-const ACCENT_PRESETS = [['#1E6FBF', 'Bryt Ma Tech blue'], ['#042C53', 'Navy'], ['#639922', 'Green'], ['#BA7517', 'Amber'], ['#B4569A', 'Plum'], ['#2F8F8F', 'Teal'], ['#C2362F', 'Red'], ['#5B6B7D', 'Slate']];
+const ACCENT_PRESETS = [['#1E6FBF', 'Bryt Ma Tech blue'], ['#1F7A5C', 'Bryt green'], ['#042C53', 'Navy'], ['#639922', 'Leaf green'], ['#BA7517', 'Amber'], ['#B4569A', 'Plum'], ['#2F8F8F', 'Teal'], ['#C2362F', 'Red'], ['#5B6B7D', 'Slate']];
 
 // A simple colour picker built from tappable colour cells, so it needs no extra libraries.
 function AccentPicker({ t, visible, current, onClose, onUse }) {
@@ -756,8 +762,8 @@ function AccentPicker({ t, visible, current, onClose, onUse }) {
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
       <View style={[s.root, { paddingTop: Platform.OS === 'android' ? RNStatusBar.currentHeight || 24 : 54 }]}>
-        <View style={[s.header, { backgroundColor: t.paper, paddingTop: 10 }]}>
-          <Text style={[s.product, { color: t.ink, fontSize: 20, flex: 1 }]}>Pick an accent colour</Text>
+        <View style={s.modalHead}>
+          <Text style={[s.modalTitle, { flex: 1 }]}>Pick an accent colour</Text>
           <Btn t={t} label="Close" icon="close" onPress={onClose} />
         </View>
         <View style={{ padding: 16 }} onLayout={(e) => setW(e.nativeEvent.layout.width - 32)}>
@@ -835,8 +841,8 @@ function CountryModal({ t, visible, current, onClose, onPick }) {
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
       <View style={[s.root, { paddingTop: Platform.OS === 'android' ? RNStatusBar.currentHeight || 24 : 54 }]}>
-        <View style={[s.header, { backgroundColor: t.paper, paddingTop: 10 }]}>
-          <Text style={[s.product, { color: t.ink, fontSize: 20 }]}>Choose your country</Text>
+        <View style={s.modalHead}>
+          <Text style={[s.modalTitle, { flex: 1 }]}>Choose your country</Text>
           <Btn t={t} label="Close" icon="close" onPress={onClose} />
         </View>
         <View style={s.searchWrap}>
@@ -863,32 +869,35 @@ function CountryModal({ t, visible, current, onClose, onPick }) {
 const styles = (t) =>
   StyleSheet.create({
     root: { flex: 1, backgroundColor: t.paper },
-    header: { backgroundColor: '#042C53', paddingHorizontal: 16, paddingBottom: 12, flexDirection: 'row', alignItems: 'center', gap: 12 },
-    product: { color: '#FFFFFF', fontSize: 24, fontWeight: '800' },
-    byline: { color: '#C4D3E4', fontSize: 13, marginTop: 1 },
-    wordmark: { color: '#FFFFFF', fontWeight: '700', textDecorationLine: 'underline', textDecorationColor: '#378ADD' },
-    wordmarkBig: { color: t.ink, fontSize: 18, fontWeight: '700', textDecorationLine: 'underline', textDecorationColor: '#378ADD', marginVertical: 6 },
-    searchWrap: { flexDirection: 'row', alignItems: 'center', gap: 8, margin: 12, paddingHorizontal: 12, height: 44, borderRadius: 10, borderWidth: 1, borderColor: t.line, backgroundColor: t.card },
+    header: { backgroundColor: t.paper, paddingHorizontal: 16, paddingBottom: 6 },
+    headRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+    product: { color: t.ink, fontSize: 27, fontWeight: '700', fontFamily: SERIF, letterSpacing: -0.3 },
+    byline: { color: t.primary, fontSize: 10, fontWeight: '700', letterSpacing: 2.2, textTransform: 'uppercase', marginTop: 8 },
+    iconBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: t.btn, alignItems: 'center', justifyContent: 'center' },
+    modalHead: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 10 },
+    modalTitle: { color: t.ink, fontSize: 22, fontWeight: '700', fontFamily: SERIF },
+    wordmarkBig: { color: t.ink, fontSize: 18, fontWeight: '700', fontFamily: SERIF, textDecorationLine: 'underline', textDecorationColor: t.accent, marginVertical: 6 },
+    searchWrap: { flexDirection: 'row', alignItems: 'center', gap: 8, marginHorizontal: 16, marginVertical: 12, paddingHorizontal: 14, height: 44, borderRadius: 22, borderWidth: 1, borderColor: t.line, backgroundColor: t.card },
     search: { flex: 1, color: t.ink, fontSize: 16, paddingVertical: 0 },
     chip: { paddingHorizontal: 14, height: 34, borderRadius: 999, borderWidth: 1, borderColor: t.line, justifyContent: 'center' },
     chipOn: { backgroundColor: t.ink, borderColor: t.ink },
     chipText: { color: t.ink, fontWeight: '600', fontSize: 14 },
     chipTextOn: { color: t.paper },
-    btn: { flexDirection: 'row', alignItems: 'center', gap: 6, height: 38, paddingHorizontal: 12, borderRadius: 8, backgroundColor: t.btn },
+    btn: { flexDirection: 'row', alignItems: 'center', gap: 6, height: 38, paddingHorizontal: 14, borderRadius: 19, backgroundColor: t.btn },
     btnPrimary: { backgroundColor: t.primary },
     btnOnDark: { backgroundColor: 'rgba(255,255,255,0.14)' },
     btnIcon: { width: 38, paddingHorizontal: 0, justifyContent: 'center' },
     btnText: { fontWeight: '600', fontSize: 14 },
     pausedBar: { marginHorizontal: 16, marginBottom: 8, padding: 12, borderRadius: 8, backgroundColor: t.danger },
     pausedText: { color: '#fff', fontWeight: '700' },
-    saveBox: { marginHorizontal: 16, marginBottom: 10, padding: 14, borderRadius: 10, borderWidth: 1, borderColor: t.line, backgroundColor: t.card, gap: 10 },
+    saveBox: { marginHorizontal: 16, marginBottom: 10, padding: 14, borderRadius: 16, borderWidth: 1, borderColor: t.line, backgroundColor: t.card, gap: 10 },
     saveText: { color: t.ink, fontWeight: '600', fontSize: 15 },
-    tip: { marginHorizontal: 16, marginBottom: 10, padding: 14, borderLeftWidth: 4, borderLeftColor: t.accent, backgroundColor: t.select },
+    tip: { marginHorizontal: 16, marginBottom: 10, padding: 14, borderRadius: 16, backgroundColor: t.select },
     tipTitle: { color: t.ink, fontWeight: '700', marginBottom: 4 },
     tipLine: { color: t.text, lineHeight: 21 },
     row: { paddingHorizontal: 16, paddingVertical: 14, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: t.line },
     rowTop: { flexDirection: 'row', gap: 12 },
-    lead: { width: 48, height: 48, borderRadius: 8, backgroundColor: t.card, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+    lead: { width: 48, height: 48, borderRadius: 12, backgroundColor: t.card, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     rowTitle: { color: t.ink, fontSize: 16, fontWeight: '600' },
     rowSub: { color: t.soft, fontSize: 12.5, marginTop: 3, lineHeight: 18 },
     rowBtns: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 },
@@ -897,7 +906,7 @@ const styles = (t) =>
     groupTitle: { flex: 1, color: t.ink, fontWeight: '700', fontSize: 15 },
     groupCount: { color: t.soft, fontWeight: '600' },
     empty: { paddingTop: 50, paddingHorizontal: 28, alignItems: 'center' },
-    emptyTitle: { color: t.ink, fontSize: 18, fontWeight: '700', marginBottom: 6 },
+    emptyTitle: { color: t.ink, fontSize: 20, fontWeight: '700', fontFamily: SERIF, marginBottom: 6 },
     emptyBody: { color: t.soft, fontSize: 15, lineHeight: 22, textAlign: 'center' },
     toast: { position: 'absolute', left: 16, right: 16, bottom: 76, backgroundColor: t.ink, borderRadius: 8, paddingVertical: 12, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12 },
     toastText: { color: t.paper, fontWeight: '600', flex: 1 },
@@ -909,7 +918,7 @@ const styles = (t) =>
     tabLabel: { color: t.soft, fontSize: 12.5, fontWeight: '600' },
     tabLabelOn: { color: t.ink },
     setGroup: { paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: t.line },
-    setHead: { color: t.ink, fontSize: 17, fontWeight: '700', marginBottom: 6 },
+    setHead: { color: t.ink, fontSize: 19, fontWeight: '700', fontFamily: SERIF, marginBottom: 6 },
     setRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8 },
     setRowCol: { paddingVertical: 8 },
     setTitle: { color: t.text, fontWeight: '600', fontSize: 15 },

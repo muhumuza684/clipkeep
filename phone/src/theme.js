@@ -3,38 +3,38 @@ import { useColorScheme } from 'react-native';
 import { getState, subscribe } from './store';
 import { inkOn, luminance, mix } from './colour';
 
-// Bryt Ma Tech: navy #042C53, blue #378ADD, neutral #D3D1C7. Flat surfaces, sentence case.
+// Warm paper, a serif wordmark, quiet lines and one accent colour the user can change.
 const light = {
   scheme: 'light',
-  paper: '#FFFFFF',
-  card: '#F6F6F3',
-  ink: '#042C53',
-  text: '#1C2B3A',
-  soft: '#566779',
-  line: '#D3D1C7',
-  hover: '#F0F3F6',
+  paper: '#FBF7EE',
+  card: '#F3EDDD',
+  ink: '#1B2630',
+  text: '#2A3540',
+  soft: '#6A7078',
+  line: '#E4DBC6',
+  hover: '#F7F1E3',
   select: '#E8F1FB',
   accent: '#378ADD',
   primary: '#1E6FBF',
   primaryInk: '#FFFFFF',
-  btn: '#EEF1F4',
+  btn: '#EFE8D7',
   danger: '#B3261E',
 };
 
 const dark = {
   scheme: 'dark',
-  paper: '#0B1826',
-  card: '#102640',
-  ink: '#EAF0F7',
-  text: '#D8E2ED',
-  soft: '#9FB2C6',
-  line: '#1F3650',
-  hover: '#10243A',
-  select: '#12304F',
-  accent: '#5AA9F0',
-  primary: '#5AA9F0',
-  primaryInk: '#042C53',
-  btn: '#16304B',
+  paper: '#12171A',
+  card: '#1B2226',
+  ink: '#F2EEE4',
+  text: '#DAD6CC',
+  soft: '#9AA5A3',
+  line: '#2B353B',
+  hover: '#1F282D',
+  select: '#162E43',
+  accent: '#6DB3F2',
+  primary: '#6DB3F2',
+  primaryInk: '#0B1A26',
+  btn: '#262F35',
   danger: '#FF8A80',
 };
 

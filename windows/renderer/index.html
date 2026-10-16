@@ -8,29 +8,34 @@
 </head>
 <body>
   <div class="app">
-    <aside class="side">
-      <div class="brandBlock">
-        <img class="logo" src="logo.png" alt="" width="40" height="40" />
-        <div>
-          <div id="productName" class="product">ClipKeep</div>
-          <div class="byline">by <span id="company" class="wordmark">Bryt Ma Tech</span></div>
+    <header class="top">
+      <div class="topRow">
+        <div class="topSide"></div>
+        <div class="brand">
+          <img class="logo" src="logo.png" alt="" width="46" height="46" />
+          <div class="brandText">
+            <h1 id="productName" class="product">ClipKeep</h1>
+            <div id="builtIn" class="byline">Built in Uganda by Bryt Ma Tech</div>
+          </div>
+        </div>
+        <div class="topSide right">
+          <div class="segmented" role="group" aria-label="Appearance">
+            <button id="themeLight" aria-pressed="false" title="Light mode"></button>
+            <button id="themeDark" aria-pressed="false" title="Dark mode"></button>
+          </div>
+          <button id="settingsBtn" class="pill" title="Settings (Ctrl+6)"></button>
         </div>
       </div>
-      <nav id="nav" class="nav" aria-label="Sections"></nav>
-      <div class="navBottom">
-        <nav id="navSettings" class="nav" aria-label="Settings"></nav>
-      </div>
-    </aside>
-
-    <main class="main">
-      <header class="pageHead" id="pageHead">
-        <h1 id="pageTitle">Clipboard</h1>
+      <div class="tabRow">
+        <nav id="nav" class="tabs" aria-label="Sections"></nav>
         <label class="search" id="searchWrap">
           <span id="searchIcon" class="searchIcon"></span>
           <input id="search" type="text" autocomplete="off" spellcheck="false" />
         </label>
-      </header>
+      </div>
+    </header>
 
+    <main class="main">
       <!-- Clipboard -->
       <section id="p-clipboard" class="page">
         <div id="tip" class="tip" hidden>
@@ -221,12 +226,13 @@
         </div>
       </section>
 
-      <footer class="status">
+
+    </main>
+    <footer class="status">
         <button id="captureBtn" class="statusBtn"></button>
         <span id="countText" class="countText"></span>
-        <span id="builtIn" class="built"></span>
+        <span id="version" class="built"></span>
       </footer>
-    </main>
   </div>
 
   <div id="toast" class="toast" hidden><span id="toastText"></span><button id="toastAction" class="toastBtn" hidden></button></div>

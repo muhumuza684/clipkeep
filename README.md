@@ -57,7 +57,7 @@ The Android file is not from the Play Store.
 
 | Clipboard | Contacts | Dark with your colour | Colour picker |
 |---|---|---|---|
-| ![Phone clipboard](docs/screenshots/phone-clipboard.png) | ![Phone contacts](docs/screenshots/phone-contacts.png) | ![Phone dark](docs/screenshots/phone-dark-amber.png) | ![Colour picker](docs/screenshots/phone-colour-picker.png) |
+| ![Phone clipboard](docs/screenshots/phone-clipboard.png) | ![Phone contacts](docs/screenshots/phone-contacts.png) | ![Phone dark](docs/screenshots/phone-dark.png) | ![Colour picker](docs/screenshots/phone-colour-picker.png) |
 
 Android only lets an app read the clipboard while it is open. After copying in another app, open ClipKeep (it saves automatically) or tap **Save what I copied**. You can also use **Share, then ClipKeep** for text, images, audio, video and files.
 
@@ -120,4 +120,4 @@ docs/      Screenshots used in this README
 ## Contact
 
 Bryt Ma Tech, Uganda. Software you can trust.
-WhatsApp +256 759 621 612 · TikTok @brytmatech
+Email: muhumuzabright26@gmail.com

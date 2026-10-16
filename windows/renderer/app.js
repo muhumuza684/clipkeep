@@ -48,6 +48,8 @@
     edit: '<path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z"/>',
     x: '<path d="M6 6l12 12M18 6L6 18"/>',
     check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/>',
+    moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
   };
   const NS = 'http://www.w3.org/2000/svg';
   function icon(name, size = 18) {
@@ -815,7 +817,7 @@
   // =====================================================
 
   const ACCENT_DEFAULT = '#1E6FBF';
-  const ACCENT_PRESETS = [['#1E6FBF', 'Bryt Ma Tech blue'], ['#042C53', 'Navy'], ['#639922', 'Green'], ['#BA7517', 'Amber'], ['#B4569A', 'Plum'], ['#2F8F8F', 'Teal'], ['#C2362F', 'Red'], ['#5B6B7D', 'Slate']];
+  const ACCENT_PRESETS = [['#1E6FBF', 'Bryt Ma Tech blue'], ['#1F7A5C', 'Bryt green'], ['#042C53', 'Navy'], ['#639922', 'Leaf green'], ['#BA7517', 'Amber'], ['#B4569A', 'Plum'], ['#2F8F8F', 'Teal'], ['#C2362F', 'Red'], ['#5B6B7D', 'Slate']];
   const hexToRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
   const mixHex = (a, b, t) => {
     const x = hexToRgb(a);
@@ -967,30 +969,22 @@
     const nav = $('nav');
     nav.textContent = '';
     PAGES.forEach(([key, label, ic], i) => {
-      const b = el('button', 'navBtn');
-      b.appendChild(icon(ic, 20));
+      const b = el('button', 'tab');
+      b.appendChild(icon(ic, 18));
       b.appendChild(document.createTextNode(label));
       b.title = `${label} (Ctrl+${i + 1})`;
       if (page === key) b.setAttribute('aria-current', 'page');
       b.addEventListener('click', () => goPage(key));
       nav.appendChild(b);
     });
-    const ns = $('navSettings');
-    ns.textContent = '';
-    const s = el('button', 'navBtn');
-    s.appendChild(icon('sliders', 20));
-    s.appendChild(document.createTextNode('Settings'));
-    s.title = 'Settings (Ctrl+6)';
-    if (page === 'settings') s.setAttribute('aria-current', 'page');
-    s.addEventListener('click', () => goPage('settings'));
-    ns.appendChild(s);
+    if (page === 'settings') $('settingsBtn').setAttribute('aria-current', 'page');
+    else $('settingsBtn').removeAttribute('aria-current');
   }
 
   function goPage(name) {
     page = name;
     renderNav();
     for (const k of Object.keys(TITLES)) $('p-' + k).hidden = k !== name;
-    $('pageTitle').textContent = TITLES[name];
     const hasSearch = !!PLACEHOLDER[name];
     $('searchWrap').hidden = !hasSearch;
     $('search').placeholder = PLACEHOLDER[name] || '';
@@ -1142,9 +1136,7 @@
     a.appendChild(el('p', null, `${b.productName} version ${info.version}`));
     a.appendChild(el('p', null, `${b.tagline}. ${b.builtIn}.`));
     a.appendChild(el('p', null, b.privacy));
-    a.appendChild(el('p', null, `WhatsApp ${b.contact.whatsapp}`));
-    a.appendChild(el('p', null, b.contact.email));
-    a.appendChild(el('p', null, `TikTok ${b.contact.tiktok}`));
+    a.appendChild(el('p', null, `Contact: ${b.contact.email}`));
     const again = btn('Show the getting started tips again', 'check', { run: () => { settings.welcomed = false; clip.setSettings({ welcomed: false }); goPage('clipboard'); } });
     a.appendChild(again);
   }
@@ -1170,6 +1162,21 @@
   twoStep($('clearAll'), 'Click again to delete all', () => { clip.clear(false); clip.clearContacts(); toast('Everything deleted'); });
   $('openFolder').addEventListener('click', () => clip.openFolder());
 
+  function renderTheme() {
+    const dark = darkMode.matches;
+    $('themeLight').setAttribute('aria-pressed', String(!dark));
+    $('themeDark').setAttribute('aria-pressed', String(dark));
+  }
+  function chooseTheme(t) {
+    settings.theme = t;
+    clip.setSettings({ theme: t });
+    setTimeout(renderTheme, 250);
+  }
+  $('themeLight').addEventListener('click', () => chooseTheme('light'));
+  $('themeDark').addEventListener('click', () => chooseTheme('dark'));
+  $('settingsBtn').addEventListener('click', () => goPage('settings'));
+  darkMode.addEventListener('change', renderTheme);
+
   // ---------- live updates ----------
 
   clip.onChanged(() => {
@@ -1187,7 +1194,6 @@
     document.title = info.brand.productName;
     $('searchIcon').appendChild(icon('search', 16));
     $('productName').textContent = info.brand.productName;
-    $('company').textContent = info.brand.company;
 
     const home = $('setHome');
     for (const c of COUNTRIES) {
@@ -1196,15 +1202,15 @@
       home.appendChild(o);
     }
 
-    const built = info.brand.builtIn;
-    const co = info.brand.company;
-    const at = built.indexOf(co);
-    const bb = $('builtIn');
-    if (at >= 0) {
-      bb.appendChild(document.createTextNode(built.slice(0, at)));
-      bb.appendChild(el('span', 'wordmark', co));
-      bb.appendChild(document.createTextNode(built.slice(at + co.length)));
-    } else bb.textContent = built;
+    $('builtIn').textContent = info.brand.builtIn;
+    $('version').textContent = `${info.brand.productName} ${info.version}`;
+    $('settingsBtn').appendChild(icon('sliders', 16));
+    $('settingsBtn').appendChild(document.createTextNode('Settings'));
+    for (const [id, ic, label] of [['themeLight', 'sun', 'Light'], ['themeDark', 'moon', 'Dark']]) {
+      $(id).appendChild(icon(ic, 15));
+      $(id).appendChild(el('span', null, label));
+    }
+    renderTheme();
 
     buildChips($('chips-clip'), CLIP_FILTERS, clipFilter, function setClip(k) {
       clipFilter = k;

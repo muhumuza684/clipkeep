@@ -1,4 +1,4 @@
-# ClipKeep for Windows (version 1.3.1)
+# ClipKeep for Windows (version 1.5.0)
 
 Built in Uganda by Bryt Ma Tech.
 
@@ -38,7 +38,7 @@ the installed app.
 Every action is a visible, labelled button. Nothing depends on hidden keys or right-clicks.
 Deleting shows an **Undo** button for a few seconds.
 
-## The sections (left side)
+## The sections (tabs across the top)
 
 - **Clipboard.** Everything you copied, newest first. Filter by Text, Links, Phone numbers, Emails, Colours,
   Images, Audio and video, Files. Phone numbers show a flag, WhatsApp and Local format buttons. Emails show Write

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0
+
+**Both apps**
+- A new look: warm paper, a serif ClipKeep title with "Built in Uganda by Bryt Ma Tech" beneath it, rounder buttons, and a Light/Dark switch at the top.
+- Contact details in About now show the email only.
+- New "Bryt green" accent colour option.
+
+**Windows**
+- Sections are now tabs across the top (the sidebar is gone); Settings is a button at the top right.
+
 ## 1.4.0
 
 **Both apps**
