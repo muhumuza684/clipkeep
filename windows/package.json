@@ -1,7 +1,7 @@
 {
   "name": "clipkeep-windows",
   "productName": "ClipKeep",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "A clipboard that keeps everything you copy, understands phone numbers, emails and colours, and finds it all again.",
   "main": "main.js",
   "private": true,

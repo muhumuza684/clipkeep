@@ -49,10 +49,12 @@ jobs:
         run: npm run dist
       - name: Check the packaged app has every file it needs
         run: |
-          npx --yes @electron/asar list dist/win-unpacked/resources/app.asar > packaged.txt
-          for f in main.js preload.js store.js smart.js winv.js brand.js renderer/index.html renderer/app.js; do
-            grep -q "[\\/]$f" packaged.txt || { echo "Missing from the package: $f"; exit 1; }
+          # The listing uses backslashes on Windows, so turn them into forward slashes first.
+          npx --yes @electron/asar list dist/win-unpacked/resources/app.asar | tr '\\' '/' > packaged.txt
+          for f in main.js preload.js store.js smart.js winv.js brand.js renderer/index.html renderer/app.js renderer/style.css; do
+            grep -qxF "/$f" packaged.txt || { echo "Missing from the package: $f"; exit 1; }
           done
+          echo "Every needed file is in the package."
       - name: Attach them to the release
         run: gh release upload "$TAG" dist/ClipKeep-Setup.exe dist/ClipKeep-Portable.exe --clobber
 
